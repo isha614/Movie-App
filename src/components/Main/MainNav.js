@@ -11,13 +11,9 @@ const styles={
   root:{
     backgroundColor:"black"
   }
-}
-class MyBottomNavigation extends React.Component {
-  render(){
-
+} 
+const MyBottom=()=> {
   const actionClasses = this.props.classes;
-   
-
   return (
        <BottomNavigation value={1} showLabels={true} classes={actionClasses}>
         <BottomNavigationAction 
@@ -38,5 +34,4 @@ class MyBottomNavigation extends React.Component {
     
   );
 }
-}
-export default withStyles(styles)(MyBottomNavigation);
+export default withStyles(styles)(MyBottom);
