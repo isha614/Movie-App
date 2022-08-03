@@ -1,6 +1,5 @@
-import { SecurityUpdateGood } from '@mui/icons-material';
+
 import {  createTheme, Pagination, ThemeProvider } from '@mui/material';
-import { blue } from '@mui/material/colors';
 import React from 'react';
 
 const darkTheme=createTheme({
@@ -25,7 +24,13 @@ const CustomPagination=({setPage,numOfPages=10})=>{
         }
         >
             <ThemeProvider theme={darkTheme}>
-            <Pagination count={numOfPages} onChange={(e)=> handlePageChange(e.target.textContent)}/>
+            <Pagination 
+            count={numOfPages} 
+            onChange={(e)=> handlePageChange(e.target.textContent)}
+            hideNextButton
+            hidePrevButton
+            color="primary"
+            />
             </ThemeProvider>
         
         </div>
