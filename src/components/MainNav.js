@@ -54,10 +54,10 @@ export default function SimpleBottomNavigation() {
          label="TV Series" 
          icon={<TvIcon />} />
 
-        {/*<BottomNavigationAction 
+        <BottomNavigationAction 
          style={{color:"white"}}
          label="Search" 
-      icon={<SearchIcon />} />*/}
+      icon={<SearchIcon />} />
       </BottomNavigation>
 
       
