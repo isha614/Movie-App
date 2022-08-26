@@ -1,82 +1,88 @@
-import React,{useEffect, useState} from "react";
-import  TextField  from "@mui/material/TextField";
+import React, { useEffect, useState } from "react";
+import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { Button, Tabs ,Tab} from "@mui/material";
+import { Button, Tabs, Tab } from "@mui/material";
 import axios from "axios";
 import SingleContent from "../../components/SingleContent/SingleContent";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 import { ContactSupportOutlined } from "@material-ui/icons";
 
-const Search=()=>{
-  const darkTheme=createTheme({
+const Search = () => {
+  const darkTheme = createTheme({
     palette: {
-      mode:"dark",
-      primary:{
-        main:"#fff",
-      }
+      mode: "dark",
+      primary: {
+        main: "#fff",
+      },
     },
-   });
-  const[type,setType]=useState(0);
-  const[page,setPage]=useState(0);
-  const [searchText, setSearchText]=useState("");
-  const [numOfPages,setNumOfPages]=useState();
-  const [content,setContent]=useState([]);
+  });
+  const [type, setType] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [numOfPages, setNumOfPages] = useState();
+  const [content, setContent] = useState([]);
 
-  const fetchSearch=async ()=>{
-    try{
-const {data}=await axios.get(`https://api.themoviedb.org/3/search/${type?"tv":"movie"}?api_key=${process.env.REACT_APP_API_KEY }
-&language=en-US&query=${searchText}&page=${page}
-&include_adult=false`);
+  const fetchSearch = async () => {
+    //if (searchText.trim().length > 2) {
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/search/${type ? "tv" : "movie"}?api_key=${
+          process.env.REACT_APP_API_KEY
+        }&language=en-US&query=${searchText}&page=${page}&include_adult=false`
+      );
 
-setContent(data.results);
-setNumOfPages(data.total_pages);
-  }catch(error)
-  {
-   console.error(error)
-  }
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+    // }
   };
 
-  useEffect(()=>{
-    window.scroll(0,0);
-    fetchSearch();
-    // eslint-disable-next-line 
-  },[type,page]);
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, [type, page]);
 
   return (
     <div>
-     <ThemeProvider theme={darkTheme}>
-      <div style={{display:'flex',margin:"15px 0"}}>
-      <TextField 
-style={{flex:1}}
-id="filled-basic" 
-label="Search"
- variant="filled" 
- color="primary" 
- onChange={(e)=>setSearchText(e.target.value)}
- />
+      <ThemeProvider theme={darkTheme}>
+        <div style={{ display: "flex", margin: "15px 0" }}>
+          <TextField
+            style={{ flex: 1 }}
+            id="filled-basic"
+            label="Search"
+            variant="filled"
+            color="primary"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
 
- <Button variant="contained" color="primary" style={{marginLeft:10}} 
-  onClick={fetchSearch}
- >
-  <SearchIcon/>
- </Button>
-      </div>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginLeft: 10 }}
+            onClick={fetchSearch}
+          >
+            <SearchIcon />
+          </Button>
+        </div>
 
-      <Tabs value={type} 
-indicatorColor="primary"
-textColor="primary"
-onChange={(event,newValue)=>{
-    setType(newValue);
-    setPage(1);
-}}
-style={{paddingBottom:5}}
->
-<Tab style={{width:"50%"}} label="Search Movies"/>
-<Tab style={{width:"50%"}} label="Search TV Series"/>
-</Tabs>
- </ThemeProvider>
- <div className="trending">
+        <Tabs
+          value={type}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={(event, newValue) => {
+            setType(newValue);
+            setPage(1);
+          }}
+          style={{ paddingBottom: 5 }}
+        >
+          <Tab style={{ width: "50%" }} label="Search Movies" />
+          <Tab style={{ width: "50%" }} label="Search TV Series" />
+        </Tabs>
+      </ThemeProvider>
+      <div className="trending">
         {content &&
           content.map((c) => (
             <SingleContent
@@ -96,8 +102,7 @@ style={{paddingBottom:5}}
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}
- </div>
-     
-  )
-}
+    </div>
+  );
+};
 export default Search;
